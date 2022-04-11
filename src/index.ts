@@ -10,6 +10,7 @@ import outputFilePath from './outputFilePath'
  * @param {Array<Object>} configs コンフィグ
  * */
 export default (configs?: Parameters<typeof getConfig>[0], outputdir?: string) => {
+  // configsを配列に追加
   return getConfig(configs).map(async config => {
     const oustPutFilePath = outputFilePath({
       cliOutputPath: outputdir,
@@ -19,6 +20,8 @@ export default (configs?: Parameters<typeof getConfig>[0], outputdir?: string) =
     if (!fs.existsSync(oustPutFilePath)) {
       // フォルダが存在しない
 
+      // https://github.com/jprichardson/node-fs-extra/blob/master/docs/ensureDir-sync.md
+      // ディレクトリをfind_or_create
       fse.ensureDirSync(oustPutFilePath)
     } else if (fs.readdirSync(config.output).length) {
       // フォルダが存在する
@@ -28,6 +31,7 @@ export default (configs?: Parameters<typeof getConfig>[0], outputdir?: string) =
       return
     }
 
+    // ここでopenApiをtypes, filesに変換している
     const { baseURL, types, files } = await buildTemplate(config)
 
     writeRouteFile({
