@@ -1,14 +1,6 @@
 import fs from 'fs'
-import { build, AspidaConfig } from 'aspida/dist/commands'
-
-const camelize = (string: string) => {
-  // eslint-disable-next-line no-useless-escape
-  string = string.replace(/\w[\-_\s]+(.)?/g, function (match, chr) {
-    const firstChr = match.charAt(0);
-    return chr ? firstChr + chr.toUpperCase() : "";
-  });
-  return string;
-};
+import { AspidaConfig, build } from 'aspida/dist/commands'
+import { camelize } from './helper'
 
 export default ({
   config,
@@ -38,7 +30,11 @@ export default ({
       }
     })
 
-    fs.writeFileSync(`${outputDir}/${camelize(p.file.join('/'))}/${fileName && camelize(fileName)}.ts`, p.methods, 'utf8')
+    fs.writeFileSync(
+      `${outputDir}/${camelize(p.file.join('/'))}/${fileName && camelize(fileName)}.ts`,
+      p.methods,
+      'utf8'
+    )
   })
   const buildConfig = config
   buildConfig.input = outputDir || config.input

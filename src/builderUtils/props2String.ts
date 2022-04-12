@@ -1,3 +1,5 @@
+import { camelize } from '../helper'
+
 export type PropValue = {
   isArray: boolean
   isEnum: boolean
@@ -45,6 +47,7 @@ const escapeDecription = (desc: string): string => {
   return desc.replace(/\*\//g, '* /')
 }
 
+// 説明部分をdocにしてる
 export const description2Doc = (desc: string | null, indent: string) => {
   if (!desc) return ''
 
@@ -54,16 +57,19 @@ export const description2Doc = (desc: string | null, indent: string) => {
     : `${indent}/**\n${indent} * ${rows.join(`\n${indent} * `)}\n${indent} */\n`
 }
 
+
 export const props2String = (props: Prop[], indent: string) =>
   `{\n${props
-    .map((p, i) =>
-      (opt =>
-        `${description2Doc(p.description, `  ${indent}`)}  ${indent}${p.name}${
+    .map((p, i) => {
+      // optってどこから来てるの？
+      return (opt => {
+        return `${description2Doc(p.description, `  ${indent}`)}  ${indent}${p.name && camelize(p.name)}${
           opt ? '?' : ''
         }: ${values2String(p.values, undefined, indent)}${opt ? ' | undefined' : ''}${
           props.length - 1 === i || isMultiLine(p.values) || isMultiLine(props[i + 1].values)
             ? '\n'
             : ''
-        }`)(!p.required)
-    )
+        }`
+      })(!p.required)
+    })
     .join('\n')}${indent}}`

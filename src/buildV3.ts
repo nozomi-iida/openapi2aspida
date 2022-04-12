@@ -1,19 +1,7 @@
 import { OpenAPIV3 } from 'openapi-types'
-import {
-  isRefObject,
-  $ref2Type,
-  getPropertyName,
-  schema2value,
-  BINARY_TYPE
-} from './builderUtils/converters'
-import {
-  props2String,
-  Prop,
-  PropValue,
-  value2String,
-  description2Doc
-} from './builderUtils/props2String'
-import { resolveParamsRef, resolveResRef, resolveReqRef } from './builderUtils/resolvers'
+import { $ref2Type, BINARY_TYPE, getPropertyName, isRefObject, schema2value } from './builderUtils/converters'
+import { description2Doc, Prop, props2String, PropValue, value2String } from './builderUtils/props2String'
+import { resolveParamsRef, resolveReqRef, resolveResRef } from './builderUtils/resolvers'
 import getDirName from './builderUtils/getDirName'
 import schemas2Props from './builderUtils/schemas2Props'
 import parameters2Props from './builderUtils/parameters2Props'
@@ -43,8 +31,8 @@ export default (openapi: OpenAPIV3.Document) => {
             .replace(/\/$/, '')
             .split('/')
             .slice(1)
-            .map(p =>
-              getDirName(
+            .map(p => {
+              return getDirName(
                 p,
                 [
                   ...getParamsList(openapi, openapi.paths[path]!.parameters),
@@ -58,7 +46,7 @@ export default (openapi: OpenAPIV3.Document) => {
                 ],
                 false
               )
-            ),
+            }),
           'index'
         ]
 
@@ -344,6 +332,7 @@ export default (openapi: OpenAPIV3.Document) => {
           .filter((method): method is Prop => !!method)
 
         if (methods.length) {
+          // methodsTextのkeyをcamelCaseにすれば行ける
           const methodsText = props2String(methods, '')
           const hasBinary = methodsText.includes(BINARY_TYPE)
           const hasTypes = /( |<)Types\./.test(methodsText)
