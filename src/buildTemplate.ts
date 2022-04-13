@@ -12,7 +12,7 @@ export default async ({ input, isYaml }: Config) => {
     ? openapi
     : await require('swagger2openapi').convertObj(openapi, { direct: true })
 
-  // buildV3: それぞれをオブジェクトに変換
+  // buildV3: オブジェクトを文字列に変換
   // resolveExternalRefs: 外部パスを解決
   return buildV3(await resolveExternalRefs(docs, typeof input === 'string' ? input : ''))
 }

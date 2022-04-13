@@ -1,6 +1,6 @@
 import fs from 'fs'
 import { AspidaConfig, build } from 'aspida/dist/commands'
-import { camelize } from './helper'
+import humps from 'humps'
 
 export default ({
   config,
@@ -24,14 +24,14 @@ export default ({
   files.forEach(p => {
     const fileName = p.file.pop()
     p.file.forEach((_d, i, dirList) => {
-      const dirPath = camelize(`${`${outputDir}/${dirList.slice(0, i + 1).join('/')}`}`)
+      const dirPath = humps.camelize(`${`${outputDir}/${dirList.slice(0, i + 1).join('/')}`}`)
       if (!fs.existsSync(dirPath)) {
         fs.mkdirSync(dirPath)
       }
     })
 
     fs.writeFileSync(
-      `${outputDir}/${camelize(p.file.join('/'))}/${fileName && camelize(fileName)}.ts`,
+      `${outputDir}/${humps.camelize(p.file.join('/'))}/${fileName && humps.camelize(fileName)}.ts`,
       p.methods,
       'utf8'
     )
@@ -39,5 +39,6 @@ export default ({
   const buildConfig = config
   buildConfig.input = outputDir || config.input
 
+  // ここまででで型ファイルを作ってaspidaを動かしてるのか
   build(buildConfig)
 }

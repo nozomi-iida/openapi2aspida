@@ -1,5 +1,3 @@
-import { camelize } from '../helper'
-
 export type PropValue = {
   isArray: boolean
   isEnum: boolean
@@ -57,15 +55,26 @@ export const description2Doc = (desc: string | null, indent: string) => {
     : `${indent}/**\n${indent} * ${rows.join(`\n${indent} * `)}\n${indent} */\n`
 }
 
+// 最初の"_"以外をcamelizeする関数
+export const customCamelize = (string: string) => {
+  // eslint-disable-next-line no-useless-escape
+  string = string.replace(/\w[\-_\s]+(.)?/g, function (match, chr) {
+    const firstChr = match.charAt(0)
+    return chr ? firstChr + chr.toUpperCase() : ''
+  })
+  return string
+}
 
 export const props2String = (props: Prop[], indent: string) =>
   `{\n${props
     .map((p, i) => {
       // optってどこから来てるの？
       return (opt => {
-        return `${description2Doc(p.description, `  ${indent}`)}  ${indent}${p.name && camelize(p.name)}${
-          opt ? '?' : ''
-        }: ${values2String(p.values, undefined, indent)}${opt ? ' | undefined' : ''}${
+        return `${description2Doc(p.description, `  ${indent}`)}  ${indent}${
+          p.name && customCamelize(p.name)
+        }${opt ? '?' : ''}: ${values2String(p.values, undefined, indent)}${
+          opt ? ' | undefined' : ''
+        }${
           props.length - 1 === i || isMultiLine(p.values) || isMultiLine(props[i + 1].values)
             ? '\n'
             : ''

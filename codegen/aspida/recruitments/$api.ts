@@ -6,7 +6,7 @@ import { dataToURLString } from 'aspida'
 // prettier-ignore
 import type { Methods as Methods0 } from '.'
 // prettier-ignore
-import type { Methods as Methods1 } from './_id@string'
+import type { Methods as Methods1 } from './Id@string'
 // prettier-ignore
 import type { Methods as Methods2 } from './recommended'
 
@@ -14,26 +14,23 @@ import type { Methods as Methods2 } from './recommended'
 const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
   const prefix = (baseURL === undefined ? 'http://localhost:3000/v1' : baseURL).replace(/\/$/, '')
   const PATH0 = '/recruitments'
-  const PATH1 = '/recruitments/recommended'
+  const PATH1 = '/recruitments/Id@string'
+  const PATH2 = '/recruitments/recommended'
   const GET = 'GET'
 
   return {
-    _id: (val0: string) => {
-      const prefix0 = `${PATH0}/${val0}`
-
-      return {
-        /**
-         * @returns OK
-         */
-        get: (option?: { config?: T | undefined } | undefined) =>
-          fetch<Methods1['get']['resBody'], BasicHeaders, Methods1['get']['status']>(prefix, prefix0, GET, option).json(),
-        /**
-         * @returns OK
-         */
-        $get: (option?: { config?: T | undefined } | undefined) =>
-          fetch<Methods1['get']['resBody'], BasicHeaders, Methods1['get']['status']>(prefix, prefix0, GET, option).json().then(r => r.body),
-        $path: () => `${prefix}${prefix0}`
-      }
+    Id_string: {
+      /**
+       * @returns OK
+       */
+      get: (option?: { config?: T | undefined } | undefined) =>
+        fetch<Methods1['get']['resBody'], BasicHeaders, Methods1['get']['status']>(prefix, PATH1, GET, option).json(),
+      /**
+       * @returns OK
+       */
+      $get: (option?: { config?: T | undefined } | undefined) =>
+        fetch<Methods1['get']['resBody'], BasicHeaders, Methods1['get']['status']>(prefix, PATH1, GET, option).json().then(r => r.body),
+      $path: () => `${prefix}${PATH1}`
     },
     recommended: {
       /**
@@ -41,14 +38,14 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
        * @returns OK
        */
       get: (option?: { config?: T | undefined } | undefined) =>
-        fetch<Methods2['get']['resBody'], BasicHeaders, Methods2['get']['status']>(prefix, PATH1, GET, option).json(),
+        fetch<Methods2['get']['resBody'], BasicHeaders, Methods2['get']['status']>(prefix, PATH2, GET, option).json(),
       /**
        * 希望の職種・募集形態からおすすめの募集をいくつか取得する
        * @returns OK
        */
       $get: (option?: { config?: T | undefined } | undefined) =>
-        fetch<Methods2['get']['resBody'], BasicHeaders, Methods2['get']['status']>(prefix, PATH1, GET, option).json().then(r => r.body),
-      $path: () => `${prefix}${PATH1}`
+        fetch<Methods2['get']['resBody'], BasicHeaders, Methods2['get']['status']>(prefix, PATH2, GET, option).json().then(r => r.body),
+      $path: () => `${prefix}${PATH2}`
     },
     /**
      * @returns OK

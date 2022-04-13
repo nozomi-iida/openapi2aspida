@@ -19,8 +19,8 @@ export type External17 = {
   id: string
   /** 「在職中」「離職中」 */
   isEmployed: boolean
-  occupation: External21
-  industry: External22
+  occupation: External19
+  industry: External20
   position: string
   annualIncome: number
   managementExperience: number
@@ -42,23 +42,23 @@ export type External18 = {
 }
 
 /** 職種 */
-export type External21 = {
+export type External19 = {
   id: string
   name: string
 }
 
 /** 業種 */
+export type External20 = {
+  id: string
+  name: string
+}
+
+export type External21 = {
+  id: string
+  name: string
+}
+
 export type External22 = {
-  id: string
-  name: string
-}
-
-export type External23 = {
-  id: string
-  name: string
-}
-
-export type External24 = {
   id: string
   name: string
   nameKana: string
@@ -75,11 +75,11 @@ export type External24 = {
   averageAge?: number | undefined
   businessSummary: string
   corporatePr?: string | undefined
-  industries?: External22[] | undefined
+  industries?: External20[] | undefined
   coverImageUrl?: string | undefined
 }
 
-export type External19 = {
+export type External23 = {
   id: string
   email: string
   emailVerificationStatus: 'unspecified' | 'request' | 'verified'
@@ -90,30 +90,30 @@ export type External19 = {
   lastNotificationReadAt?: string | undefined
 }
 
-export type External20 = {
+export type External24 = {
   id: string
   title: string
-  occupation?: External21 | undefined
-  industry?: External22 | undefined
-  workplace?: External23 | undefined
+  occupation?: External19 | undefined
+  industry?: External20 | undefined
+  workplace?: External21 | undefined
   jobDescription?: string | undefined
   workConditions?: string | undefined
   qualificationRequirement?: string | undefined
-  company: External24
+  company: External22
   status: 'active' | 'inactive' | 'draft'
 }
 
 export type External25 = {
   id: string
-  account: External19
-  company: External24
+  account: External23
+  company: External22
 }
 
 /** 職種「中項目」 */
 export type External26 = {
   id: string
   name: string
-  occupations?: External21[] | undefined
+  occupations?: External19[] | undefined
 }
 
 export type External27 = {
@@ -135,21 +135,21 @@ export type External0 = {
 export type External1 = {
   id: string
   title: string
-  occupation?: External21 | undefined
-  industry?: External22 | undefined
-  workplace?: External23 | undefined
+  occupation?: External19 | undefined
+  industry?: External20 | undefined
+  workplace?: External21 | undefined
   jobDescription?: string | undefined
   workConditions?: string | undefined
   qualificationRequirement?: string | undefined
-  company: External24
+  company: External22
   status: 'active' | 'inactive' | 'draft'
 }
 
 export type External2 = {
   id: string
   name: string
-  account: External19
-  recruitments?: External20[] | undefined
+  account: External23
+  recruitments?: External24[] | undefined
 }
 
 export type External3 = {
@@ -169,7 +169,7 @@ export type External3 = {
   averageAge?: number | undefined
   businessSummary: string
   corporatePr?: string | undefined
-  industries?: External22[] | undefined
+  industries?: External20[] | undefined
   coverImageUrl?: string | undefined
 }
 
@@ -184,21 +184,21 @@ export type External4 = {
 
 export type External5 = {
   id: string
-  account: External19
-  company: External24
+  account: External23
+  company: External22
 }
 
 export type External6 = {
   id: string
   content: string
-  account: External19
+  account: External23
   room: External25
 }
 
 export type External7 = {
   id: string
-  recruitment: External20
-  account: External19
+  recruitment: External24
+  account: External23
   /** 採用側の場合のみ存在、未対応, 対応中, 対応済み, 採用・契約締結済み */
   managementStatus: 'backlog' | 'in_progress' | 'closed' | 'signed'
   createdAt?: string | undefined
@@ -210,8 +210,8 @@ export type External8 = {
   id: string
   /** 「在職中」「離職中」 */
   isEmployed: boolean
-  occupation: External21
-  industry: External22
+  occupation: External19
+  industry: External20
   position: string
   annualIncome: number
   managementExperience: number
@@ -258,7 +258,7 @@ export type External11 = {
 export type External12 = {
   id: string
   name: string
-  industries?: External22[] | undefined
+  industries?: External20[] | undefined
 }
 
 export type External13 = {
@@ -271,10 +271,10 @@ export type External14 = {
   /** 転職希望時期(Nヶ月以内) */
   timeToChangeJobs?: number | undefined
   annualIncome?: number | undefined
-  workplace?: External23 | undefined
-  occupations?: External21[] | undefined
+  workplace?: External21 | undefined
+  occupations?: External19[] | undefined
   employmentStatuses?: External27[] | undefined
-  account: External19
+  account: External23
 }
 
 export type External15 = {

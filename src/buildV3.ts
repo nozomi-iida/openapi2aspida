@@ -22,8 +22,9 @@ export default (openapi: OpenAPIV3.Document) => {
     ...Object.keys(openapi.paths)
       .map(path => {
         const methodProps = Object.keys(openapi.paths[path]!).filter(
-          (method): method is typeof methodNames[number] =>
-            methodNames.includes(method as typeof methodNames[number])
+          (method): method is typeof methodNames[number] => {
+            return methodNames.includes(method as typeof methodNames[number])
+          }
         )
 
         const file = [
@@ -354,6 +355,7 @@ export default (openapi: OpenAPIV3.Document) => {
       .filter(file => file.methods)
   )
 
+  // @typeファイルの文字列
   const typesText =
     parameters.length + schemas.length
       ? [
@@ -362,13 +364,19 @@ export default (openapi: OpenAPIV3.Document) => {
             description: null,
             text: typeof p.prop === 'string' ? p.prop : props2String([p.prop], '')
           })),
-          ...schemas.map(s => ({
-            name: s.name,
-            description: s.value.description,
-            text: value2String(s.value, '').replace(/\n {2}/g, '\n')
-          }))
+          ...schemas.map(s => {
+            return {
+              name: s.name,
+              description: s.value.description,
+              text: value2String(s.value, '').replace(/\n {2}/g, '\n')
+            }
+          })
         ]
-          .map(p => `\n${description2Doc(p.description, '')}export type ${p.name} = ${p.text}\n`)
+          .map(p => {
+            return `\n${description2Doc(p.description, '')}export type ${
+              p.name
+            } = ${p.text}\n`
+          })
           .join('')
           .replace(/(\W)Types\./g, '$1')
           .replace(/\]\?:/g, ']:')
