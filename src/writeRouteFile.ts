@@ -1,7 +1,15 @@
 import fs from 'fs'
 import { AspidaConfig, build } from 'aspida/dist/commands'
-import humps from 'humps'
 
+// 最初の"_"以外をcamelizeする関数
+export const customCamelize = (string: string) => {
+  // eslint-disable-next-line no-useless-escape
+  string = string.replace(/\w[\-_\s]+(.)?/g, function (match, chr) {
+    const firstChr = match.charAt(0)
+    return chr ? firstChr + chr.toUpperCase() : ''
+  })
+  return string
+}
 export default ({
   config,
   types,
@@ -24,14 +32,14 @@ export default ({
   files.forEach(p => {
     const fileName = p.file.pop()
     p.file.forEach((_d, i, dirList) => {
-      const dirPath = humps.camelize(`${`${outputDir}/${dirList.slice(0, i + 1).join('/')}`}`)
+      const dirPath = customCamelize(`${`${outputDir}/${dirList.slice(0, i + 1).join('/')}`}`)
       if (!fs.existsSync(dirPath)) {
         fs.mkdirSync(dirPath)
       }
     })
 
     fs.writeFileSync(
-      `${outputDir}/${humps.camelize(p.file.join('/'))}/${fileName && humps.camelize(fileName)}.ts`,
+      `${outputDir}/${customCamelize(p.file.join('/'))}/${fileName && customCamelize(fileName)}.ts`,
       p.methods,
       'utf8'
     )
